@@ -15,7 +15,10 @@
         text0: document.querySelectorAll('#scroll-section-0 .main-text')[0],
       },
       values: {
-        text0_opacity: [0, 1],
+        text0_opacity_in: [0, 1, { start: 0.1, end: 0.2 }],
+        text0_translateY_in: [20, 0, { start: 0.1, end: 0.2 }],
+        text0_opacity_out: [1, 0, { start: 0.25, end: 0.3 }],
+        text0_translateY_out: [0, -20, { start: 0.25, end: 0.3 }],
       },
     },
     {
@@ -50,10 +53,25 @@
   function calcValues(values, currentYOffeset) {
     // 현재 섹션 높이에 대한 현재 스크롤 위치의 비율
     let rv;
-    let scrollRatio = currentYOffeset / sectionInfo[currentSection].scrollHeight;
+    const scrollHeight = sectionInfo[currentSection].scrollHeight;
+    const scrollRatio = currentYOffeset / scrollHeight;
 
-    // values[0] 부터 values[1]까지 일정비율로 증가/감소
-    rv = scrollRatio * (values[1] - values[0]) + values[0];
+    if (values[2]) {
+      const actionStart = values[2].start * scrollHeight;
+      const actionEnd = values[2].end * scrollHeight;
+      const actionRatio = (currentYOffeset - actionStart) / (actionEnd - actionStart);
+
+      if (currentYOffeset >= actionStart && currentYOffeset <= actionEnd) {
+        rv = actionRatio * (values[1] - values[0]) + values[0];
+      } else if (currentYOffeset < actionStart) {
+        rv = values[0];
+      } else if (currentYOffeset > actionEnd) {
+        rv = values[1];
+      }
+    } else {
+      // values[0] 부터 values[1]까지 일정비율로 증가/감소
+      rv = scrollRatio * (values[1] - values[0]) + values[0];
+    }
 
     return rv;
   }
@@ -62,12 +80,25 @@
     let objs = sectionInfo[currentSection].objs;
     let values = sectionInfo[currentSection].values;
     let currentYOffeset = yOffset - prevScrollHeight;
+    const scrollHeight = sectionInfo[currentSection].scrollHeight;
+    const scrollRatio = currentYOffeset / scrollHeight;
 
     switch (currentSection) {
       case 0:
-        let text0_opacity_in = calcValues(values.text0_opacity, currentYOffeset);
-        objs.text0.style.opacity = text0_opacity_in;
-        console.log(currentSection, text0_opacity_in);
+        const text0_opacity_in = calcValues(values.text0_opacity_in, currentYOffeset);
+        const text0_opacity_out = calcValues(values.text0_opacity_out, currentYOffeset);
+        const text0_translateY_in = calcValues(values.text0_translateY_in, currentYOffeset);
+        const text0_translateY_out = calcValues(values.text0_translateY_out, currentYOffeset);
+
+        if (scrollRatio <= 0.22) {
+          // in
+          objs.text0.style.opacity = text0_opacity_in;
+          objs.text0.style.transform = `translateY(${text0_translateY_in}%`;
+        } else {
+          // out
+          objs.text0.style.opacity = text0_opacity_out;
+          objs.text0.style.transform = `translateY(${text0_translateY_out}%`;
+        }
         break;
       case 1:
         break;
