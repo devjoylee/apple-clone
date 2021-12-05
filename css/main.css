@@ -21,11 +21,16 @@ a {
 .global-nav,
 .local-nav {
   padding: 0 1rem;
+  position: fixed;
+  width: 100%;
+  left: 0;
 }
 .global-nav {
+  top: 0;
   height: 44px;
 }
 .local-nav {
+  top: 45px;
   height: 52px;
   border-bottom: 1px solid #ddd;
 }
@@ -128,6 +133,21 @@ a {
   height: 7rem;
   background: rgb(238, 95, 29);
   color: white;
+}
+
+.sticky-elem {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: none;
+}
+
+#show-section-0 #scroll-section-0 .sticky-elem,
+#show-section-1 #scroll-section-1 .sticky-elem,
+#show-section-2 #scroll-section-2 .sticky-elem,
+#show-section-3 #scroll-section-3 .sticky-elem {
+  display: block;
 }
 
 /* desktop version */
