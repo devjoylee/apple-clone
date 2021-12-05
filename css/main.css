@@ -95,7 +95,7 @@ a {
   margin-bottom: 0.5em;
   font-size: 1.2rem;
 }
-.product-detail {
+.product-detail p {
   width: 50%;
   font-weight: bold;
 }
@@ -150,7 +150,7 @@ a {
   .description strong {
     font-size: 6rem;
   }
-  .product-detail {
+  .product-detail p {
     width: 20%;
   }
   .mid-text {
