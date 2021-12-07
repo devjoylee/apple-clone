@@ -106,6 +106,14 @@ a {
   width: 50%;
   font-weight: bold;
 }
+.product-detail:nth-child(2) {
+  top: 10%;
+  left: 40%;
+}
+.product-detail:nth-child(3) {
+  top: 15%;
+  left: 45%;
+}
 .pin {
   width: 1px;
   height: 100px;
@@ -164,6 +172,13 @@ a {
   }
   #scroll-section-2 .main-text small {
     font-size: 1.5vw;
+  }
+  .product-detail:nth-child(2) {
+    top: 20%;
+    left: 53%;
+  }
+  .product-detail:nth-child(3) {
+    left: 55%;
   }
   .description {
     font-size: 2rem;
