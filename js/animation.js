@@ -26,11 +26,18 @@ function calcValues(values, currentYOffset, currentSection) {
 export default function playAnimation(currentYOffset, currentSection) {
   let objs = sectionInfo[currentSection].objs;
   let values = sectionInfo[currentSection].values;
+  let canvas = sectionInfo[currentSection].canvas;
   const scrollHeight = sectionInfo[currentSection].scrollHeight;
   const scrollRatio = currentYOffset / scrollHeight;
 
   switch (currentSection) {
     case 0:
+      /** section 0 CANVAS ANIMATION **/
+      let sq0 = Math.round(calcValues(canvas.frameSequence, currentYOffset, currentSection)); // 해당 섹션을 300개로 분할
+      canvas.context.drawImage(canvas.imageFrames[sq0], 0, 0); // 분할한 위치에 해당하는 이미지를 가져옴
+      canvas.canvas.style.opacity = calcValues(canvas.opacity, currentYOffset, currentSection);
+
+      /** section 0 TEXT ANIMATION **/
       if (scrollRatio <= 0.22) {
         // in
         objs.text0.style.opacity = calcValues(values.text0_opacity_in, currentYOffset, currentSection);
@@ -73,6 +80,19 @@ export default function playAnimation(currentYOffset, currentSection) {
       break;
 
     case 2:
+      /** section 2 CANVAS ANIMATION **/
+      let sq2 = Math.round(calcValues(canvas.frameSequence, currentYOffset, currentSection));
+      canvas.context.drawImage(canvas.imageFrames[sq2], 0, 0);
+
+      if (scrollRatio <= 0.1) {
+        // canvas in
+        canvas.canvas.style.opacity = calcValues(canvas.opacity_in, currentYOffset, currentSection);
+      } else {
+        // canvas out
+        canvas.canvas.style.opacity = calcValues(canvas.opacity_out, currentYOffset, currentSection);
+      }
+
+      /** section 2 TEXT ANIMATION **/
       if (scrollRatio <= 0.32) {
         // in
         objs.text0.style.opacity = calcValues(values.text0_opacity_in, currentYOffset, currentSection);

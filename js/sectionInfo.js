@@ -29,6 +29,14 @@ export const sectionInfo = [
       text2_translateY_out: [0, -20, { start: 0.65, end: 0.7 }],
       text3_translateY_out: [0, -20, { start: 0.85, end: 0.9 }],
     },
+    canvas: {
+      canvas: document.querySelector('#video-canvas-0'),
+      context: document.querySelector('#video-canvas-0').getContext('2d'),
+      frameLength: 300,
+      frameSequence: [0, 299],
+      imageFrames: [],
+      opacity: [1, 0, { start: 0.9, end: 1 }],
+    },
   },
   {
     // 1
@@ -69,6 +77,15 @@ export const sectionInfo = [
 
       pin0_scaleY: [0.5, 1, { start: 0.5, end: 0.55 }],
       pin1_scaleY: [0.5, 1, { start: 0.72, end: 0.77 }],
+    },
+    canvas: {
+      canvas: document.querySelector('#video-canvas-1'),
+      context: document.querySelector('#video-canvas-1').getContext('2d'),
+      frameLength: 960,
+      frameSequence: [0, 959],
+      imageFrames: [],
+      opacity_in: [0, 1, { start: 0, end: 0.05 }],
+      opacity_out: [1, 0, { start: 0.95, end: 1 }],
     },
   },
   {

@@ -7,6 +7,21 @@ import playAnimation from './animation.js';
   let currentSection = 0; // 현재 활성화 된 섹션
   let switchSection = false; // 섹션이 바뀌는 순간 true
 
+  // canvas에 사용할 이미지 불러오기
+  function imgToCanvas() {
+    for (let i = 0; i < sectionInfo[0].canvas.frameLength; i++) {
+      let image = new Image();
+      image.src = `./images/frame0/IMG_${6726 + i}.jpg`;
+      sectionInfo[0].canvas.imageFrames.push(image);
+    }
+
+    for (let i = 0; i < sectionInfo[2].canvas.frameLength; i++) {
+      let image = new Image();
+      image.src = `./images/frame1/IMG_${7027 + i}.jpg`;
+      sectionInfo[2].canvas.imageFrames.push(image);
+    }
+  }
+
   // 현재 스크롤 중인 섹션 알아내기 : currentSection
   function scrollLoop() {
     switchSection = false;
@@ -40,6 +55,13 @@ import playAnimation from './animation.js';
 
   // 레이아웃 설정 init
   function setLayout() {
+    let totalScrollHeight = 0;
+    const heightRatio = window.innerHeight / 1080;
+
+    // canvas 배치하기
+    sectionInfo[0].canvas.canvas.style.transform = `translate3d(-50%,-50%,0) scale(${heightRatio})`;
+    sectionInfo[2].canvas.canvas.style.transform = `translate3d(-50%,-50%,0) scale(${heightRatio})`;
+
     // 각 스크롤 섹션 높이 세팅
     for (let i = 0; i < sectionInfo.length; i++) {
       if (sectionInfo[i].type === 'sticky') {
@@ -51,7 +73,6 @@ import playAnimation from './animation.js';
     }
 
     // 현재 스크롤 위치 찾아서 해당 페이지 활성화
-    let totalScrollHeight = 0;
     yOffset = window.pageYOffset;
     for (let i = 0; i < sectionInfo.length; i++) {
       totalScrollHeight += sectionInfo[i].scrollHeight;
@@ -68,6 +89,13 @@ import playAnimation from './animation.js';
     scrollLoop();
   });
 
+  imgToCanvas();
   window.addEventListener('resize', setLayout);
-  window.addEventListener('load', setLayout);
+  window.addEventListener('load', () => {
+    setLayout();
+
+    // 로드 시 캔버스 첫 화면 띄우기
+    sectionInfo[0].canvas.context.drawImage(sectionInfo[0].canvas.imageFrames[0], 0, 0);
+    sectionInfo[2].canvas.context.drawImage(sectionInfo[2].canvas.imageFrames[0], 0, 0);
+  });
 })();
